@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous" />
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css" />
+
+    <!-- My Css -->
+    <link rel="stylesheet" href="style.css" />
+
+    <!-- css 2  -->
+    <link rel="stylesheet" href="./node_modules/nes.css/css/nes.min.css" />
+    <title>8it.calc</title>
+  </head>
+
+  <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet" />
+  <link href="https://unpkg.com/nes.css/css/nes.css" rel="stylesheet" />
+
+  <body>
+    <nav class="nes-navbar is-rounded navbar-expand-md navbar-dark bg-dark fixed-top">
+      <div class="nes-container is-rounded is-dark">
+        <a class="navbar-brand" href="#">8it.Calc</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="index.html">Beranda </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="#">Histori</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main role="main" class="container">
+      <div class="starter-template">
+        <h1>Histori Penghitungan</h1>
+        <p class="lead">This is a Histori</p>
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="col-md-12">
+          <div class="card border-0 rounded">
+            <div class="card-body">
+              <div class="nes-table-responsive">
+                <table class="nes-table is-bordered is-dark">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Tanggal</th>
+                      <th>Kategori</th>
+                      <th>Hasil</th>
+                      <th>Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody id="hasil_riwayat"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <!-- /.container -->
+
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
+    -->
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Perhitungan</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div id="result"></div>
+            <div class="rumus_form"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      var text;
+      for (var i = 0; i < localStorage.length; i++) {
+        // do something with localStorage.getItem(localStorage.key(i));
+        // console.log(localStorage.getItem(localStorage.key(i)));
+        var show = localStorage.getItem(localStorage.key(i));
+        var id = localStorage.key(i);
+        var splits = show.split(',');
+        var tgl = splits[0];
+        var hasil = splits[1];
+        var cat = splits[2];
+        text += `<tr>
+                        <th>${i}</th>
+                        <td>${tgl}</td>
+                        <td>${cat}</td>
+                        <td>${hasil}</td>
+                        <td><span onclick="deleteId(${id})" class="btn btn-info btn-sm">Hapus</span></td>
+                    </tr>`;
+        $('#hasil_riwayat').html(text);
+      }
+
+      function deleteId(ids) {
+        localStorage.removeItem(ids);
+        // console.log(ids);
+        alert(`ID ${ids} telah dihapus dari Storing data`);
+        window.location.reload();
+      }
+    </script>
+  </body>
+</html>
